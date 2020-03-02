@@ -46,9 +46,8 @@ function parseJson(json) {
   }
 }
 
-
 //first layer of the map
-d3.json("/data/community-area.geojson")
+d3.json("/data-viz-interactive-proj/data/community-area.geojson")
   .then(function(data) {
     //parseJson(data.features);
     g.selectAll("path")
