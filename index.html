@@ -4,12 +4,19 @@
     <title>Interactive Portfolio</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="src/stylesheets/main.css">
   </head>
   <body>
     <div id="app"></div>
     <h1>Exploring gentrification trends of Chicago neighborhoods</h1>
     <h3>Click on a neighborhood to find out demographic and housing details</h3>
-    <p></p>
+    <div class='big-container'>
+      <div id='main-map'></div>
+      <div class='comm-area'>
+        <p></p>
+        <div id='area-chart'></div>
+      </div>
+    </div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script type="text/javascript" src="src/app.js"></script>
   </body>

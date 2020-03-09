@@ -1,4 +1,10 @@
 
+/*
+* {
+  border: thin solid red
+}
+*/
+
 a {
   cursor: pointer;
 }
@@ -10,4 +16,11 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+}
+
+.big-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
 }
