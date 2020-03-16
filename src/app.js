@@ -3,14 +3,6 @@
 
 
 //helper functions (to be migrated to utils)
-function mouseOverHandler(d) {
-  d3.select(this).attr("fill", "#FFD700");
-}
-
-function mouseOutHandler(d) {
-  d3.select(this).attr("fill", "#ccc");
-}
-
 function clickHandler(d) {
   var name = d.properties.community;
   var housingCap = d.properties.housingCap;
@@ -212,6 +204,10 @@ function makeMap(housing, communityShapes, totalCrimes) {
 
   var g = svg.append("g");
 
+  var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
   //using Albers projection and trying to center the map
   var albersProjection = d3.geoAlbers()
     .scale(80000)
@@ -231,8 +227,20 @@ function makeMap(housing, communityShapes, totalCrimes) {
     .attr("fill", "#ccc")
     .attr("stroke", "#333333")
     .attr("d", geoPath)
-    .on("mouseover", mouseOverHandler)
-    .on("mouseout", mouseOutHandler)
-    .on("click", clickHandler);
+    .on("mouseover", function mouseOverHandler(d) {
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+
+      tooltip.html(d.properties.community)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+      })
+    .on("mouseout", function mouseOutHandler(d) {
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+      })
+    .on("click", clickHandler)
 
   } //end of makeMap
