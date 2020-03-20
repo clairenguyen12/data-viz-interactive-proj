@@ -13,15 +13,30 @@ body {
   background: #D6D6CE;
   font-family: Verdana, Geneva, sans-serif;
   height: 100%;
-  margin: 0;
+  margin-left: 20px;
   padding: 0;
   width: 100%;
 }
 
 .big-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-left: 20px;
+}
+
+#big-title {
+  color: orange;
+}
+
+#area-chart {
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  margin-bottom: 40px;
+  border: 2px solid green;
+  width: 80%;
 }
 
 

@@ -3,30 +3,37 @@
 //https://bl.ocks.org/tiffylou/88f58da4599c9b95232f5c89a6321992
 
 
-//helper functions (to be migrated to utils)
+//helper functions
 function clickHandler(d) {
   var name = d.properties.community;
   var housingCap = d.properties.housingCap;
-  var text = "Community Area " + name + " has " + housingCap + " affordable housing buildings."
-  d3.select('p').text(text);
+  var text = "Community Area: " + name;
+  d3.select('h2#big-title').text(text);
+
 
   clearElement('area-chart');
 
   var areaCrimes = d.properties.areaCrimes;
   //console.log(areaCrimes);
-  makeLine(areaCrimes, 'Year', 'Total Crimes', 12000, 8, 5,
-           "Crime Trend in from 2012 to 2019",
+  makeLine(areaCrimes, 'Year', 'Total Crimes', 25000, 8, 5,
+           "Year",
+           "Total Reported Crimes",
+           "Total Reported Crimes from 2012 to 2019",
            "Add subtitle here",
            "Data Source: Chicago Open Data Portal");
 
   var areaIncome = d.properties.medianIncome;
   makeLine(areaIncome, 'Year', 'MedianIncome', 120000, 6, 5,
+           "Year",
+           "Median Income (US$)",
            "Median Income Trend from 2014 to 2019",
            "Add subtitle here",
            "Data Source: Census");
 
   var areaCensus = d.properties.census;
-  makeManyLines(areaCensus);
+  makeManyLines(areaCensus,
+                "Year",
+                "Percent of Total Population (%)");
 }
 
 
@@ -58,10 +65,11 @@ function clearElement(elementID) {
 }
 
 
-function makeLine(data, xKey, yKey, ymax, xtick, ytick, title, subtitle, datasource) {
-  var height = 400;
-  var width = 500;
-  var margin = { top: 80, left: 40, right: 80, bottom: 40 };
+//making line charts for the community area
+function makeLine(data, xKey, yKey, ymax, xtick, ytick, xlab, ylab, title, subtitle, datasource) {
+  var height = 500;
+  var width = 600;
+  var margin = { top: 80, left: 60, right: 80, bottom: 60 };
   var plotWidth = width - margin.left - margin.right;
   var plotHeight = height - margin.bottom - margin.top;
 
@@ -117,35 +125,34 @@ function makeLine(data, xKey, yKey, ymax, xtick, ytick, title, subtitle, datasou
     .attr("cy", function (d) { return y(d[yKey]); } )
     .attr("r", 2);
 
-
   svg.append("g")
     .attr("class", "x-axis")
     .attr("transform", "translate(0," + plotHeight + ")")
     .call(xAxis);
 
-/*
-  svg.append("g")
-    .append("text")
+  svg.append("text")
+    .attr("transform", "translate(" + (plotWidth/2) + "," + (plotHeight + 40) + ")")
     .attr("class", "x-label")
-    .attr("transform", "translate(" + (margin.right - 30) + "," + (margin.bottom - 60) + ")")
-    .text("Year")
+    .attr("text-anchor", "middle")
+    .style("font-size", "12px")
+    .text(xlab);
 
-
-  svg.append("g")
-    .append("text")
-    .attr("class", "y-title")
-    .attr("transform", "translate(" + (plotWidth - margin.right + 70) + "," + (plotHeight) + ") rotate(-90)")
-    .text("Total Annual Crimes");
-*/
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left - 3)
+    .attr("x",0 - (plotHeight / 2))
+    .attr("dy", "1em")
+    .style("font-size", "12px")
+    .style("text-anchor", "middle")
+    .text(ylab);
 
   svg.append("text")
     .attr("x", (width / 2 - 40))
     .attr("y", 0 - (margin.top / 2 + 20))
     .attr("class", "title")
     .attr("text-anchor", "middle")
-    .style("font-size", "16px")
+    .style("font-size", "18px")
     .text(title);
-
 
   svg.append("text")
     .attr("x", (width / 2 - 40))
@@ -155,21 +162,21 @@ function makeLine(data, xKey, yKey, ymax, xtick, ytick, title, subtitle, datasou
     .style("font-size", "14px")
     .text(subtitle);
 
-
   svg.append("text")
-    .attr("transform", "translate(" + (plotWidth) + "," + (plotHeight + 40) + ")")
-    .attr("class", "data-source")
-    .attr("text-anchor", "end")
-    .style("font-size", "14px")
+    .attr("x", (width / 2 - 40))
+    .attr("y", 0 - (margin.top / 2) + 20)
+    .attr("class", "subtitle")
+    .attr("text-anchor", "middle")
+    .style("font-size", "10px")
     .text(datasource);
 }
 
 
-
-function makeManyLines(data) {
-  var height = 400;
-  var width = 500;
-  var margin = { top: 80, left: 40, right: 80, bottom: 40 };
+//making multiple line chart
+function makeManyLines(data, xlab, ylab) {
+  var height = 500;
+  var width = 600;
+  var margin = { top: 80, left: 60, right: 80, bottom: 60 };
   var plotWidth = width - margin.left - margin.right;
   var plotHeight = height - margin.bottom - margin.top;
 
@@ -180,7 +187,6 @@ function makeManyLines(data) {
     .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-
 
   var x = d3.scaleLinear()
     .domain([2014, 2019])
@@ -200,7 +206,7 @@ function makeManyLines(data) {
   svg.append("path")
     .datum(data)
     .attr("fill", "none")
-    .attr("stroke", "blue")
+    .attr("stroke", "#1192e8")
     .attr("stroke-width", 1.5)
     .attr("d", d3.line()
       .x(function(d) { return x(d.Year) })
@@ -214,16 +220,16 @@ function makeManyLines(data) {
     .append("circle")
     .attr("cx", function (d) { return x(d.Year); } )
     .attr("cy", function (d) { return y(d.PercentWhite); } )
-    .attr("r", 2);
+    .attr("r", 1);
 
   svg.append("path")
     .datum(data)
     .attr("fill", "none")
-    .attr("stroke", "orange")
+    .attr("stroke", "#a56eff")
     .attr("stroke-width", 1.5)
     .attr("d", d3.line()
       .x(function(d) { return x(d.Year) })
-      .y(function(d) { return y(d.PercentNonWhite) })
+      .y(function(d) { return y(d.PercentBlack) })
       );
 
   svg.append('g')
@@ -232,8 +238,65 @@ function makeManyLines(data) {
     .enter()
     .append("circle")
     .attr("cx", function (d) { return x(d.Year); } )
-    .attr("cy", function (d) { return y(d.PercentNonWhite); } )
-    .attr("r", 2);
+    .attr("cy", function (d) { return y(d.PercentBlack); } )
+    .attr("r", 1);
+
+  svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "#005d5d")
+    .attr("stroke-width", 1.5)
+    .attr("d", d3.line()
+      .x(function(d) { return x(d.Year) })
+      .y(function(d) { return y(d.PercentAsian) })
+      );
+
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) { return x(d.Year); } )
+    .attr("cy", function (d) { return y(d.PercentAsian); } )
+    .attr("r", 1);
+
+  svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "#ee5396")
+    .attr("stroke-width", 1.5)
+    .attr("d", d3.line()
+      .x(function(d) { return x(d.Year) })
+      .y(function(d) { return y(d.PercentHispanic) })
+        );
+
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) { return x(d.Year); } )
+    .attr("cy", function (d) { return y(d.PercentHispanic); } )
+    .attr("r", 1);
+
+  svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "gray")
+    .attr("stroke-width", 1.5)
+    .attr("d", d3.line()
+      .x(function(d) { return x(d.Year) })
+      .y(function(d) { return y(d.PercentOther) })
+        );
+
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) { return x(d.Year); } )
+    .attr("cy", function (d) { return y(d.PercentOther); } )
+    .attr("r", 1);
 
   // Add the X Axis
   svg.append("g")
@@ -245,29 +308,29 @@ function makeManyLines(data) {
   svg.append("g")
     .call(d3.axisLeft(y));
 
-/*
-  svg.append("g")
-    .append("text")
+  svg.append("text")
+    .attr("transform", "translate(" + (plotWidth/2) + "," + (plotHeight + 40) + ")")
     .attr("class", "x-label")
-    .attr("transform", "translate(" + (margin.right - 30) + "," + (margin.bottom - 60) + ")")
-    .text("Year")
+    .attr("text-anchor", "middle")
+    .style("font-size", "12px")
+    .text(xlab);
 
-
-  svg.append("g")
-    .append("text")
-    .attr("class", "y-title")
-    .attr("transform", "translate(" + (plotWidth - margin.right + 70) + "," + (plotHeight) + ") rotate(-90)")
-    .text("Total Annual Crimes");
-*/
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left - 3)
+    .attr("x",0 - (plotHeight / 2))
+    .attr("dy", "1em")
+    .style("font-size", "12px")
+    .style("text-anchor", "middle")
+    .text(ylab);
 
   svg.append("text")
     .attr("x", (width / 2 - 40))
     .attr("y", 0 - (margin.top / 2 + 20))
     .attr("class", "title")
     .attr("text-anchor", "middle")
-    .style("font-size", "16px")
+    .style("font-size", "18px")
     .text("Racial Demographics");
-
 
   svg.append("text")
     .attr("x", (width / 2 - 40))
@@ -277,13 +340,87 @@ function makeManyLines(data) {
     .style("font-size", "14px")
     .text("Add subtitle here");
 
-
   svg.append("text")
-    .attr("transform", "translate(" + (plotWidth) + "," + (plotHeight + 40) + ")")
-    .attr("class", "data-source")
-    .attr("text-anchor", "end")
-    .style("font-size", "14px")
+    .attr("x", (width / 2 - 40))
+    .attr("y", 0 - (margin.top / 2) + 20)
+    .attr("class", "subtitle")
+    .attr("text-anchor", "middle")
+    .style("font-size", "10px")
     .text("Data Source: Census");
+
+  const legendWidth = 100;
+  const legendHeight = 100;
+  const legendX = plotWidth + 30;
+  const legendY = margin.top;
+  const rectMargin = 10;
+  const textMarginX = 15;
+  const textMarginY = 10;
+
+  const legendContainer = svg.append("g")
+    .attr("width", legendWidth)
+    .attr("height", legendHeight)
+    .attr("x", legendX)
+    .attr("y", legendY)
+
+  legendContainer.append("rect")
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("x", legendX + rectMargin)
+    .attr("y", legendY + rectMargin)
+    .attr("fill", "#1192e8")
+  legendContainer.append("text")
+    .text("White")
+    .attr("x", legendX + rectMargin + textMarginX)
+    .attr("y", legendY + rectMargin + textMarginY)
+    .attr("class", "legendText")
+
+  legendContainer.append("rect")
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("x", legendX + rectMargin)
+    .attr("y", legendY + 3*rectMargin)
+    .attr("fill","#a56eff")
+  legendContainer.append("text")
+    .text("Black")
+    .attr("x", legendX + rectMargin + textMarginX)
+    .attr("y", legendY + 3*rectMargin + textMarginY)
+    .attr("class", "legendText")
+
+  legendContainer.append("rect")
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("x", legendX + rectMargin)
+    .attr("y", legendY + 5*rectMargin)
+    .attr("fill", "#005d5d")
+  legendContainer.append("text")
+    .text("Asian")
+    .attr("x", legendX + rectMargin + textMarginX)
+    .attr("y", legendY + 5*rectMargin + textMarginY)
+    .attr("class", "legendText")
+
+  legendContainer.append("rect")
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("x", legendX + rectMargin)
+    .attr("y", legendY + 7*rectMargin)
+    .attr("fill", "#ee5396")
+  legendContainer.append("text")
+    .text("Hispanic")
+    .attr("x", legendX + rectMargin + textMarginX)
+    .attr("y", legendY + 7*rectMargin + textMarginY)
+    .attr("class", "legendText")
+
+  legendContainer.append("rect")
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("x", legendX + rectMargin)
+    .attr("y", legendY + 9*rectMargin)
+    .attr("fill", "gray")
+  legendContainer.append("text")
+    .text("Other")
+    .attr("x", legendX + rectMargin + textMarginX)
+    .attr("y", legendY + 9*rectMargin + textMarginY)
+    .attr("class", "legendText")
 }
 
 
@@ -413,5 +550,4 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
     .attr("width", 5)
     .attr("height", 5)
     .attr("fill", color);
-
   } //end of makeMap
