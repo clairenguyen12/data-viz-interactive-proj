@@ -354,6 +354,12 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
 
   var g = svg.append("g");
 
+  //choropleth codes start
+  var color = d3.scaleThreshold()
+    .domain(d3.range(0, 30))
+    .range(d3.schemeBlues[6]);
+  //choropleth codes end
+
   var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
@@ -374,9 +380,10 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
     .data(communityShapesFeatures)
     .enter()
     .append("path")
-    .attr("fill", "#ccc")
+    //.attr("fill", "#ccc")
     .attr("stroke", "#333333")
     .attr("d", geoPath)
+    .attr("fill", function(d) { return color(d.properties.housingCap); }) //choropleth code
     .on("mouseover", function mouseOverHandler(d) {
       tooltip.transition()
         .duration(200)
@@ -390,8 +397,21 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
       tooltip.transition()
         .duration(500)
         .style("opacity", 0);
-      d3.select(this).style("fill", "ccc");
+      d3.select(this).style("fill", function(d) { return color(d.properties.housingCap); });
       })
     .on("click", clickHandler)
+
+
+  var legend = svg.selectAll("rect")
+    .data(color.domain().reverse())
+    .enter()
+    .append('rect')
+    .attr("x", 10)
+    .attr("y", function(d, i) {
+        return i * 5;
+     })
+    .attr("width", 5)
+    .attr("height", 5)
+    .attr("fill", color);
 
   } //end of makeMap
