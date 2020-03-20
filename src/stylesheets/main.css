@@ -22,12 +22,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
 }
 
-path:hover {
-  fill: orange;
-}
 
 div.tooltip {
     position: absolute;
