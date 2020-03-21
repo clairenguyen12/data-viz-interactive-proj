@@ -10,8 +10,10 @@ function clickHandler(d) {
   var text = "Community Area: " + name;
   d3.select('h2#big-title').text(text);
 
-
   clearElement('area-chart');
+
+  var instruction = document.getElementById("comm-area-instruction");
+  instruction.style.display = 'block';
 
   var areaCrimes = d.properties.areaCrimes;
   //console.log(areaCrimes);
@@ -28,7 +30,7 @@ function clickHandler(d) {
            "Median Income (US$)",
            "Median Income Trend from 2014 to 2019",
            "The median income was calculated on the household level for the neighborhood.",
-           "Data Source: American Community Survey (5 year)");
+           "Data Source: U.S. Census Bureau, ACS 5-Year Tables");
 
   var areaCensus = d.properties.census;
   makeManyLines(areaCensus,
@@ -363,7 +365,7 @@ function makeManyLines(data, xlab, ylab) {
     .attr("class", "subtitle")
     .attr("text-anchor", "middle")
     .style("font-size", "10px")
-    .text("Data Source: American Community Survey (5 year)");
+    .text("Data Source: U.S. Census Bureau, ACS 5-Year Tables");
 
   const legendWidth = 100;
   const legendHeight = 100;

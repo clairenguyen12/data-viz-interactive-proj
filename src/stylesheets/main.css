@@ -83,3 +83,11 @@ div.tooltip {
   margin: 5px;
   color: white;
 }
+
+#comm-area-instruction {
+  display: none;
+}
+
+.footer {
+  font-size: 10px;
+}
