@@ -57,6 +57,15 @@ function groupBy(data, accessorKey) {
 }
 
 
+function remap(arr) {
+  const myMap = {};
+  for (let i=0; i<arr.length; i++) {
+    myMap[arr[i]['Community Area Number']] = arr[i]
+  }
+  return myMap;
+}
+
+
 function clearElement(elementID) {
     var div = document.getElementById(elementID);
     while(div.firstChild) {
@@ -330,7 +339,7 @@ function makeManyLines(data, xlab, ylab) {
     .attr("class", "title")
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
-    .text("Racial Demographics");
+    .text("Racial Demographics Trend from 2014 to 2019");
 
   svg.append("text")
     .attr("x", (width / 2 - 40))
@@ -425,7 +434,7 @@ function makeManyLines(data, xlab, ylab) {
 
 
 Promise.all([
-  d3.csv("./data/affordable_housing.csv"),
+  d3.json("./data/housing.json"),
   d3.json("./data/community-area.geojson"),
   d3.json("./data/total_crimes.json"),
   d3.json("./data/chi_inc.json"),
@@ -440,7 +449,7 @@ Promise.all([
 
 function makeMap(housing, communityShapes, totalCrimes, income, census) {
 
-  var housingByArea = groupBy(housing, "Community Area Number");
+  var housingByArea = remap(housing);
   //console.log(housingByArea);
 
   var totalCrimesByArea = groupBy(totalCrimes, "Community Area");
@@ -461,7 +470,7 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
     var areaNum = parseFloat(areaNumStr);
 
     if (housingByArea.hasOwnProperty(areaNum)) {
-      var housingCap = housingByArea[areaNum].length;
+      var housingCap = housingByArea[areaNum]['Units'];
     } else {
       var housingCap = 0;
     };
@@ -481,7 +490,7 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
   console.log(communityShapesFeatures[0].properties);
 
   var width = 700;
-  var height = 580;
+  var height = 600;
 
   // Create SVG
   var svg = d3.select("div#main-map")
@@ -525,7 +534,7 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
       tooltip.transition()
         .duration(200)
         .style("opacity", .9);
-      tooltip.html(d.properties.community)
+      tooltip.html(d.properties.community + ': ' + d.properties.housingCap + ' units')
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
       d3.select(this).style("fill", "orange");

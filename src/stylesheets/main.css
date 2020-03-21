@@ -10,7 +10,7 @@ a {
 }
 
 body {
-  background: #D6D6CE;
+  background: #EEE2DC;
   font-family: Verdana, Geneva, sans-serif;
   height: 100%;
   margin-left: 20px;
@@ -35,7 +35,7 @@ body {
   padding-bottom: 20px;
   padding-right: 20px;
   margin-bottom: 40px;
-  border: 2px solid green;
+  border: 2px solid rgb(0,128,128, 0.7);
   width: 80%;
 }
 
