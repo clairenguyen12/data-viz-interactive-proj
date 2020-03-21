@@ -5,16 +5,48 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="src/stylesheets/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="app"></div>
     <h1>Exploring gentrification trends of Chicago neighborhoods</h1>
-    <h3>Click on a neighborhood to find out demographic and housing details</h3>
+    <p id='introduction'>
+      Gentrification refers to the process of altering the demographic composition of a neighborhood.
+      In Chicago, this process usually includes the replacement of low-income and/or minority
+      residents by white, higher-income residents. The process typically lasts over several years.
+      Gentrification has been a debatable policy issue because displaced residents believe
+      that the influx of new residents prices out old residents and destabilizes their communities.
+      On the other hand, gentrification also leads to lower crime rates and economic
+      improvement in a neighborhood. Areas in Chicago that have been experiencing gentrification
+      include Logan Square, Pilsen, Uptown, etc.
+      Please use the interactive map below to explore the demographic trends for a Chicago
+      neighborhood of your choice. You will be able to see how crime rates, median income,
+      and racial demographics of the neighborhood have changed over time and evaluate if it
+      has gone through gentrification or not.
+    </p>
+    <div id='instruction-box'>
+      <p>
+        Please use the interactive map below to explore the demographic trends for a Chicago
+        neighborhood of your choice. When you hover your mouse over the map of Chicago's
+        affordable housing unit on the left, you can see how many affordable units that neighborhood has.
+        Once you click on your neighborhood of interest, you will be able to see, on the right side,
+        how crime rates, median income, and racial demographics of the neighborhood have changed over
+        time and evaluate if it has gone through gentrification or not.
+      </p>
+    </div>
     <div class='big-container'>
       <div id='left-side'>
-        <p>Map description</p>
+        <p id='main-map-title'>Distribution of Affordable Housing Units in Chicago Neighborhoods</p>
+        <p id='main-map-subtitle'>
+          <span>The map below shows the total number of affordable housing units </span>
+          <br>
+          <span>in each neighborhood. Affordable housing volume ranges</span>
+          <br>
+          <span>from 0 unit (Lincoln Park) to above 2000 units (Grand Boulevard).</span>
+        </p>
+        <p id='main-map-data-source'>Data Source: Chicago Open Portal</p>
         <div id='main-map'></div>
-        <p>More description</p>
+        <p></p>
       </div>
       <div class='comm-area'>
         <h2 id='big-title'></h2>

@@ -502,8 +502,8 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
 
   //choropleth codes start
   var color = d3.scaleThreshold()
-    .domain(d3.range(0, 30))
-    .range(d3.schemeBlues[6]);
+    .domain([1,500])
+    .range(d3.schemeBlues[3]);
   //choropleth codes end
 
   var tooltip = d3.select("body").append("div")
@@ -549,14 +549,33 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
 
 
   var legend = svg.selectAll("rect")
-    .data(color.domain().reverse())
+    .data([0,100,200,300,400,500,600,700,800,900,1000].reverse())
     .enter()
     .append('rect')
-    .attr("x", 10)
+    .attr("x", 450)
     .attr("y", function(d, i) {
-        return i * 5;
+        return i * 10;
      })
-    .attr("width", 5)
-    .attr("height", 5)
+    .attr("width", 10)
+    .attr("height", 10)
     .attr("fill", color);
+
+  svg.append("text")
+    .attr("x", 470)
+    .attr("y", 110)
+    .style("font-size", "10px")
+    .text('0')
+
+  svg.append("text")
+    .attr("x", 470)
+    .attr("y", 60)
+    .style("font-size", "10px")
+    .text('500')
+
+  svg.append("text")
+    .attr("x", 470)
+    .attr("y", 10)
+    .style("font-size", "10px")
+    .text('1000')
+
   } //end of makeMap

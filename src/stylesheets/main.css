@@ -11,7 +11,7 @@ a {
 
 body {
   background: #EEE2DC;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: 'Work Sans', sans-serif;
   height: 100%;
   margin-left: 20px;
   padding: 0;
@@ -23,10 +23,11 @@ body {
   flex-direction: row;
   justify-content: space-between;
   margin-left: 20px;
+  margin-top: 40px;
 }
 
 #big-title {
-  color: orange;
+  color: #800020;
 }
 
 #area-chart {
@@ -50,4 +51,35 @@ div.tooltip {
     background: #fff;
     border: 0px;
     pointer-events: none;
+}
+
+#main-map {
+  margin-top: 20px;
+}
+
+#main-map-title {
+  font-size: 20px;
+}
+
+#main-map-subtitle {
+  font-size: 15px;
+}
+
+#main-map-data-source {
+  font-size: 10px;
+}
+
+#introduction {
+  width: 90%;
+}
+
+#instruction-box {
+  width: 90%;
+  border: 3px solid rgb(0,128,128, 0.7);
+  background: rgb(0,128,128, 0.7);
+}
+
+#instruction-box p {
+  margin: 5px;
+  color: white;
 }
