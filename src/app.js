@@ -19,7 +19,7 @@ function clickHandler(d) {
            "Year",
            "Total Reported Crimes",
            "Total Reported Crimes from 2012 to 2019",
-           "Add subtitle here",
+           "The chart shows both violent and non-violent crimes reported in the neighborhood.",
            "Data Source: Chicago Open Data Portal");
 
   var areaIncome = d.properties.medianIncome;
@@ -27,8 +27,8 @@ function clickHandler(d) {
            "Year",
            "Median Income (US$)",
            "Median Income Trend from 2014 to 2019",
-           "Add subtitle here",
-           "Data Source: Census");
+           "The median income was calculated on the household level for the neighborhood.",
+           "Data Source: American Community Survey (5 year)");
 
   var areaCensus = d.properties.census;
   makeManyLines(areaCensus,
@@ -347,15 +347,23 @@ function makeManyLines(data, xlab, ylab) {
     .attr("class", "subtitle")
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
-    .text("Add subtitle here");
+    .text("This chart shows the percentage of White, Black, Asian and Hispanic")
 
   svg.append("text")
     .attr("x", (width / 2 - 40))
     .attr("y", 0 - (margin.top / 2) + 20)
     .attr("class", "subtitle")
     .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .text("residents over total neighborhood population.");
+
+  svg.append("text")
+    .attr("x", (width / 2 - 40))
+    .attr("y", 0 - (margin.top / 2) + 40)
+    .attr("class", "subtitle")
+    .attr("text-anchor", "middle")
     .style("font-size", "10px")
-    .text("Data Source: Census");
+    .text("Data Source: American Community Survey (5 year)");
 
   const legendWidth = 100;
   const legendHeight = 100;
