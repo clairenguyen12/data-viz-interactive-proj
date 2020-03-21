@@ -497,7 +497,7 @@ function makeMap(housing, communityShapes, totalCrimes, income, census) {
     communityShapesFeatures[i].properties["census"] = areaRace;
   };
 
-  console.log(communityShapesFeatures[0].properties);
+  //console.log(communityShapesFeatures[0].properties);
 
   var width = 700;
   var height = 600;
